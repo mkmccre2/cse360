@@ -5,7 +5,11 @@
     * This program adds.
     */
 
+
 package cse360assign2;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * AddingMachine is the base class for the AddingMachine program.
@@ -17,6 +21,14 @@ public class AddingMachine {
 
 	/** The total amount. */
 	private int total;
+	
+	/** The list that contains the history of additions and
+	 * subtractions.
+	 */
+	private List<String> history = new ArrayList<String>();
+	
+	/** The string output used by toString.*/
+	private String stringBuilder;
 	
 	/** 
 	 * Sole class constructor for AddingMachine.
@@ -31,7 +43,7 @@ public class AddingMachine {
 	 * @return total as int.
 	 */
 	public int getTotal () {
-		return 0;
+		return total;
 	}
 	
 	/**
@@ -40,6 +52,8 @@ public class AddingMachine {
 	 * @param value (required) to be added to total.
 	 */
 	public void add (int value) {
+		total = total + value;
+		history.add(" + " + value);
 		
 	}
 	
@@ -49,20 +63,28 @@ public class AddingMachine {
 	 * @param value (required) to be subtracted from total.
 	 */
 	public void subtract (int value) {
-		
+		total = total - value;
+		history.add(" - " + value);
 	}
 		
 	/**
 	 * The method used to convert the output to a string.
+	 * 
+	 * @return String with the calculation history.
 	 */
 	public String toString () {
-		return "";
+		stringBuilder = "0";
+		for (int element = 0; element < history.size(); element++) {
+			stringBuilder = stringBuilder + history.get(element);
+		}
+		return stringBuilder;
 	}
 
 	/**
-	 * The method used to clear the total.
+	 * The method used to clear the total and history.
 	 */
 	public void clear() {
-	
+		total = 0;
+		stringBuilder = null;
 	}
 }
