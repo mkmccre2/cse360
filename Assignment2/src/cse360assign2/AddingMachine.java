@@ -2,7 +2,8 @@
     * Author: Mary McCready
     * Class: CSE 360 2019 Summer C (41792)
     * Assignment #2
-    * This program adds.
+    * This program adds, subtracts, returns a total, and returns a
+    * computation history. 
     */
 
 
