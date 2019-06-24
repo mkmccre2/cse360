@@ -93,6 +93,7 @@ public class gui1 {
 		frmGradebook.getContentPane().add(lblGrades, gbc_lblGrades);
 		
 		JTextPane textPane = new JTextPane();
+		textPane.setBackground(new Color(30, 144, 255));
 		GridBagConstraints gbc_textPane = new GridBagConstraints();
 		gbc_textPane.gridheight = 12;
 		gbc_textPane.gridwidth = 2;
@@ -103,6 +104,7 @@ public class gui1 {
 		frmGradebook.getContentPane().add(textPane, gbc_textPane);
 		
 		JEditorPane editorPane = new JEditorPane();
+		editorPane.setBackground(new Color(30, 144, 255));
 		GridBagConstraints gbc_editorPane = new GridBagConstraints();
 		gbc_editorPane.gridheight = 12;
 		gbc_editorPane.insets = new Insets(0, 0, 5, 5);
