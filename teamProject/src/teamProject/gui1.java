@@ -54,9 +54,9 @@ public class gui1 {
 		frmGradebook.getContentPane().setBackground(new Color(30, 144, 255));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		frmGradebook.getContentPane().setLayout(gridBagLayout);
 		
 		JButton btnUploadGrades = new JButton("UPLOAD GRADES");
@@ -104,7 +104,7 @@ public class gui1 {
 		frmGradebook.getContentPane().add(textPane, gbc_textPane);
 		
 		JEditorPane editorPane = new JEditorPane();
-		editorPane.setBackground(new Color(30, 144, 255));
+		editorPane.setBackground(new Color(255, 255, 255));
 		GridBagConstraints gbc_editorPane = new GridBagConstraints();
 		gbc_editorPane.gridheight = 12;
 		gbc_editorPane.insets = new Insets(0, 0, 5, 5);
@@ -238,14 +238,78 @@ public class gui1 {
 		gbc_lblE.gridy = 12;
 		frmGradebook.getContentPane().add(lblE, gbc_lblE);
 		
+		JLabel lblPercentile = new JLabel("PERCENTILE");
+		lblPercentile.setForeground(new Color(255, 255, 255));
+		GridBagConstraints gbc_lblPercentile = new GridBagConstraints();
+		gbc_lblPercentile.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPercentile.gridx = 0;
+		gbc_lblPercentile.gridy = 14;
+		frmGradebook.getContentPane().add(lblPercentile, gbc_lblPercentile);
+		
+		JButton btnSetMinmax = new JButton("SET MIN/MAX");
+		btnSetMinmax.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
+		GridBagConstraints gbc_btnSetMinmax = new GridBagConstraints();
+		gbc_btnSetMinmax.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSetMinmax.gridx = 6;
+		gbc_btnSetMinmax.gridy = 14;
+		frmGradebook.getContentPane().add(btnSetMinmax, gbc_btnSetMinmax);
+		
 		JButton btnSaveGradesTo = new JButton("SAVE TO FILE");
 		btnSaveGradesTo.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		GridBagConstraints gbc_btnSaveGradesTo = new GridBagConstraints();
-		gbc_btnSaveGradesTo.insets = new Insets(0, 0, 0, 5);
+		gbc_btnSaveGradesTo.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSaveGradesTo.gridx = 9;
 		gbc_btnSaveGradesTo.gridy = 14;
 		frmGradebook.getContentPane().add(btnSaveGradesTo, gbc_btnSaveGradesTo);
-		frmGradebook.setBounds(100, 100, 723, 419);
+		
+		JLabel lblBottom = new JLabel("Bottom 20%");
+		lblBottom.setForeground(new Color(255, 255, 255));
+		GridBagConstraints gbc_lblBottom = new GridBagConstraints();
+		gbc_lblBottom.insets = new Insets(0, 0, 5, 5);
+		gbc_lblBottom.gridx = 0;
+		gbc_lblBottom.gridy = 15;
+		frmGradebook.getContentPane().add(lblBottom, gbc_lblBottom);
+		
+		JLabel lblMiddle = new JLabel("Middle 70%");
+		lblMiddle.setForeground(new Color(255, 255, 255));
+		GridBagConstraints gbc_lblMiddle = new GridBagConstraints();
+		gbc_lblMiddle.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMiddle.gridx = 1;
+		gbc_lblMiddle.gridy = 15;
+		frmGradebook.getContentPane().add(lblMiddle, gbc_lblMiddle);
+		
+		JLabel lblTop = new JLabel("Top 10 %");
+		lblTop.setForeground(new Color(255, 255, 255));
+		GridBagConstraints gbc_lblTop = new GridBagConstraints();
+		gbc_lblTop.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTop.gridx = 2;
+		gbc_lblTop.gridy = 15;
+		frmGradebook.getContentPane().add(lblTop, gbc_lblTop);
+		
+		JLabel lblBottom20Dynamic = new JLabel(" ");
+		lblBottom20Dynamic.setForeground(new Color(255, 255, 255));
+		GridBagConstraints gbc_lblBottom20Dynamic = new GridBagConstraints();
+		gbc_lblBottom20Dynamic.insets = new Insets(0, 0, 5, 5);
+		gbc_lblBottom20Dynamic.gridx = 0;
+		gbc_lblBottom20Dynamic.gridy = 16;
+		frmGradebook.getContentPane().add(lblBottom20Dynamic, gbc_lblBottom20Dynamic);
+		
+		JLabel lblMiddle70Dynamic = new JLabel(" ");
+		lblMiddle70Dynamic.setForeground(new Color(255, 255, 255));
+		GridBagConstraints gbc_lblMiddle70Dynamic = new GridBagConstraints();
+		gbc_lblMiddle70Dynamic.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMiddle70Dynamic.gridx = 1;
+		gbc_lblMiddle70Dynamic.gridy = 16;
+		frmGradebook.getContentPane().add(lblMiddle70Dynamic, gbc_lblMiddle70Dynamic);
+		
+		JLabel lblTop10Dynamic = new JLabel(" ");
+		lblTop10Dynamic.setForeground(new Color(255, 255, 255));
+		GridBagConstraints gbc_lblTop10Dynamic = new GridBagConstraints();
+		gbc_lblTop10Dynamic.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTop10Dynamic.gridx = 2;
+		gbc_lblTop10Dynamic.gridy = 16;
+		frmGradebook.getContentPane().add(lblTop10Dynamic, gbc_lblTop10Dynamic);
+		frmGradebook.setBounds(100, 100, 750, 454);
 		frmGradebook.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
