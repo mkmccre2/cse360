@@ -233,6 +233,11 @@ public class GradesController {
 	
 	private void analyzeGrades() {
 		String gradesReceived = "";
+		numA = 0;
+		numB = 0;
+		numC = 0;
+		numD = 0;
+		numE = 0;
 		//calculate sum of grades
 		double sum = 0;
 			for (int index = 0; index < grades.getGrades().size(); index++) {
