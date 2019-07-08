@@ -23,8 +23,6 @@ public class Grades {
 		return gradesList;
 	}
 	
-	
-	
 	public int getMinGrade() {
 		return this.minGrade;
 	}

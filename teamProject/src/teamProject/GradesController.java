@@ -39,7 +39,7 @@ public class GradesController {
 	}
 	
 	public void initializeController() {
-		gui.getBtnUploadGrades().addActionListener(e ->  uploadGrades());
+		gui.getBtnUploadGrades().addActionListener(e -> uploadGrades());
 		gui.getBtnPrintReport().addActionListener(e -> printReport());
 		gui.getBtnChangeGrade().addActionListener(e -> changeGrade());
 		gui.getBtnUpdateGrades().addActionListener(e -> updateGrades());

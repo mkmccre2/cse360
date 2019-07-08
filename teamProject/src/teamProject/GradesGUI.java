@@ -408,8 +408,8 @@ public class GradesGUI {
 	}//btnPrintReport() method
 	
 	private void initializePanes() {
-		editorPane = new JScrollPane(editorPaneT);
 		editorPaneT = new JEditorPane();
+		editorPane = new JScrollPane(editorPaneT);
 		textPane = new JTextPane();
 		textPaneT = new JScrollPane(textPane);
 		textPaneT.setBackground(new Color(30, 144, 255));
@@ -424,6 +424,7 @@ public class GradesGUI {
 		frmGradebook.getContentPane().add(textPaneT, gbc_textPaneT);
 		
 		editorPane.setBackground(new Color(255, 255, 255));
+		editorPaneT.setForeground(Color.BLACK);
 		GridBagConstraints gbc_editorPane = new GridBagConstraints();
 		gbc_editorPane.fill = GridBagConstraints.BOTH;
 		gbc_editorPane.insets = new Insets(0, 0, 5, 5);
