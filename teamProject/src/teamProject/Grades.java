@@ -12,6 +12,9 @@ package teamProject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Grades is the model class that stores all grades and values.
+ */
 public class Grades {
 	
 	/** The ArrayList which stores the grades. */

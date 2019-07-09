@@ -26,22 +26,39 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileSystemView;
 
+/**
+ * The GradesController class is used to manipulate the Grades model from user input in the GUI.
+ */
 public class GradesController {
-	
+	/** Grades object */
 	private Grades grades;
+	/** GradesGUI object */
 	private GradesGUI gui;
+	/** Initial high, lowe, average, and median values */
 	private double high = 0, low = 0, average = 0, median = 0;
+	/** Initial A, B, C, D, E score values */
 	private int numA = 0, numB = 0, numC = 0, numD = 0, numE = 0;
+	/** Initial 20th, 70th, and 90th percentile values  */
 	private double percentile20th = 0, percentile70th = 0, percentile90th = 0;
+	/** File path string */
 	private String filePath = null;
+	/** Empty grades string */
 	private String gradesString = "";
 	
+	/**
+	 * Sole GradesController constructor.
+	 * @param initGrades
+	 * @param initGui
+	 */
 	public GradesController(Grades initGrades, GradesGUI initGui) {
 		grades = initGrades;
 		gui = initGui;
 		initializeGradesGUI();
 	}
 	
+	/**
+	 * Initializes the Grades GUI
+	 */
 	public void initializeGradesGUI() {
 		try {
 			gui.getFrmGradebook().setVisible(true);
@@ -50,8 +67,12 @@ public class GradesController {
 		}
 	}
 	
+	/**
+	 * Initializes the controller. Starts with optional application tour, then initializes listeners.
+	 */
 	public void initializeController() {
 		
+		// dialog box tour
 		Object[] options1 = {"Take tour", "Get started"};
 		Object[] options2 = {"Next tip", "Leave tour"};
 		Object[] options3 = {"Get started!", "Restart tour"};
@@ -107,13 +128,17 @@ public class GradesController {
 			counter++;
 		}
 		
-		gui.getBtnUploadGrades().addActionListener(e -> uploadGrades());
-		gui.getBtnPrintReport().addActionListener(e -> printReport());
-		gui.getBtnChangeGrade().addActionListener(e -> changeGrade());
-		gui.getBtnUpdateGrades().addActionListener(e -> updateGrades());
-		gui.getBtnSetMinMax().addActionListener(e -> setMinMax());
+		// listeners
+		gui.getBtnUploadGrades().addActionListener(parameter -> uploadGrades());
+		gui.getBtnPrintReport().addActionListener(parameter -> printReport());
+		gui.getBtnChangeGrade().addActionListener(parameter -> changeGrade());
+		gui.getBtnUpdateGrades().addActionListener(parameter -> updateGrades());
+		gui.getBtnSetMinMax().addActionListener(parameter -> setMinMax());
 	}
 
+	/**
+	 * Launches file chooser for user to select grade file. Grades are saved to grades ArrayList.
+	 */
 	private void uploadGrades() {
 		//initialize local variables
     	double newGrade = 0;
@@ -122,11 +147,13 @@ public class GradesController {
 		int returnValue = jfc.showOpenDialog(null);
 		
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			grades.getGrades().clear();
 			File selectedFile = jfc.getSelectedFile();
 			filePath = selectedFile.getAbsolutePath();
 			if(selectedFile.getName().toLowerCase().endsWith("txt")){
 				try {
 					Scanner scan = new Scanner(selectedFile);
+					// check for comma, space, and line delimiter
 					scan.useDelimiter("[,| |\n]");
 
 			        while(scan.hasNextDouble())
@@ -146,11 +173,11 @@ public class GradesController {
 			        gui.getEditorPaneT().setText(gradesString);
 			        analyzeGrades();
 				}
-				catch (NumberFormatException e1) {
+				catch (NumberFormatException exception) {
 					JOptionPane.showMessageDialog(gui.getFrmGradebook(), "Imported text document (" + selectedFile.getPath() + ") not formatted correctly.");
 				}
-				catch (Exception eee) {
-					eee.printStackTrace();
+				catch (Exception exception) {
+					exception.printStackTrace();
 				}
 			}
 			else{
@@ -159,6 +186,9 @@ public class GradesController {
 		}//if file approved
 	}
 	
+	/**
+	 * If grades are present, prompts user to save report.
+	 */
 	private void printReport() {
 		if (grades.getGrades().size() != 0) {
 			JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
@@ -204,6 +234,9 @@ public class GradesController {
 		}
 	}
 	
+	/**
+	 * Allows user to change score minimums for each grade.
+	 */
 	private void changeGrade() {
 		double newA, newB, newC, newD;
 		try {
@@ -244,11 +277,15 @@ public class GradesController {
 				}
 			}
 			
-		} catch(Exception ee) {
-			ee.printStackTrace();
+		} catch(Exception exception) {
+			exception.printStackTrace();
 		}
 	}
-			
+		
+	/**
+	 * If grades were uploaded, changes are saved to the original file. If grades were not uploaded,
+	 * user is prompted to save a new grade file.
+	 */
 	private void updateGrades() {
 		if (filePath == null) { //no grades have been uploaded yet
 			JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
@@ -264,6 +301,9 @@ public class GradesController {
     	analyzeGrades();
 	}
 	
+	/**
+	 * User can set new minimum and maximum allowed grades for an assignemnt.
+	 */
 	private void setMinMax() {
 		double newMin, newMax;
 		try {
@@ -298,14 +338,23 @@ public class GradesController {
 		}
 	}
 	
+	/**
+	 * Returns String of grades from List<Double>
+	 * @param grades
+	 * @return gradeString
+	 */
 	protected String gradesToString(List<Double> grades) {
-		String temp = "";
+		String gradeString = "";
 		for (int i = 0; i < grades.size(); i++) {
-			temp += grades.get(i) + "\n";
+			gradeString += grades.get(i) + "\n";
 		}	
-		return temp;	
+		return gradeString;	
 	}
 	
+	/**
+	 * Parses grades from string of grades and stores them in grades ArrayList
+	 * @param gradesString
+	 */
 	protected void gradesToDouble(String gradesString) {
 		String temp;
 		double grade;
@@ -318,6 +367,9 @@ public class GradesController {
 		scan.close();
 	}
 	
+	/**
+	 * Saves new grades to file.
+	 */
 	protected void saveGrades() {
 		String temp = "";
 		File saveFile = new File(filePath);
@@ -332,7 +384,7 @@ public class GradesController {
 			//save new grades to file
 			FileWriter fileWriter = new FileWriter(saveFile);
 			for(int index = 0; index < grades.getGrades().size(); index++) {
-				temp = grades.getGrades().get(index).toString() + "\n";
+				temp = grades.getGrades().get(index).toString();
 				fileWriter.write(temp);
 				fileWriter.write("\n");
 			}
@@ -343,6 +395,9 @@ public class GradesController {
 		}
 	}
 	
+	/**
+	 * Calculates and displays grade metrics.
+	 */
 	private void analyzeGrades() {
 		String gradesReceived = "";
 		numA = 0;

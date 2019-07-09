@@ -16,6 +16,10 @@ import java.awt.Insets;
 import java.awt.Font;
 import javax.swing.*;
 
+
+/**
+ * The GradesGUI class has all GUI related objects.
+ */
 public class GradesGUI {
 	
 	// frame
