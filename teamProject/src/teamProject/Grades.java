@@ -6,7 +6,7 @@ import java.util.List;
 public class Grades {
 	
 	private List<Double> gradesList = new ArrayList<>();
-	private int minGrade, maxGrade;
+	private double minGrade, maxGrade;
 	private double minA, minB, minC, minD;
 	
 	public Grades(List<Double> userGrades) {
@@ -23,11 +23,11 @@ public class Grades {
 		return gradesList;
 	}
 	
-	public int getMinGrade() {
+	public double getMinGrade() {
 		return this.minGrade;
 	}
 	
-	public int getMaxGrade() {
+	public double getMaxGrade() {
 		return this.maxGrade;
 	}
 	
@@ -47,7 +47,7 @@ public class Grades {
 		return this.minD;
 	}
 	
-	public void changeMinMaxGrades(int userMinGrade, int userMaxGrade) {
+	public void changeMinMaxGrades(double userMinGrade, double userMaxGrade) {
 		this.minGrade = userMinGrade;
 		this.maxGrade = userMaxGrade;
 	}

@@ -11,7 +11,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileSystemView;
 
 public class GradesController {
@@ -59,6 +62,7 @@ public class GradesController {
 			if(selectedFile.getName().toLowerCase().endsWith("txt")){
 				try {
 					Scanner scan = new Scanner(selectedFile);
+					scan.useDelimiter("[,| |\n]");
 
 			        while(scan.hasNextDouble())
 			        {
@@ -91,19 +95,17 @@ public class GradesController {
 	}
 	
 	private void printReport() {
-		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-		int retrieval = jfc.showSaveDialog(null);
-		if (retrieval == JFileChooser.APPROVE_OPTION) {
-			if (grades.getGrades().size() != 0) {
+		if (grades.getGrades().size() != 0) {
+			JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+			int retrieval = jfc.showSaveDialog(null);
+			if (retrieval == JFileChooser.APPROVE_OPTION) {
 				try {
 					BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(jfc.getSelectedFile() + ".txt"));
 					
 					String out = "";
 					out = 
-						"GRADES\n" +
+						"GRADE REPORT\n" +
 						"----------------------\n";
-				
-							//add grades to file
 					out += 
 						"\nSTATISTICS\n" + 
 						"----------------------\n" + 
@@ -118,6 +120,8 @@ public class GradesController {
 						"\nC\t|\t" + numC + 
 						"\nD\t|\t" + numD +
 						"\nE\t|\t" + numE + 
+						"\n\nPERCENTILE\n" + 
+						"----------------------\n" +
 						"\n\n20th Percentile: " + percentile20th +
 						"\n70th Percentile: " + percentile70th + 
 						"\n90th Percentile: " + percentile90th;
@@ -128,28 +132,53 @@ public class GradesController {
 					ex.printStackTrace();
 				}
 			}
-			else {
-				JOptionPane.showMessageDialog(gui.getFrmGradebook(), "No grades have been imported.");
-			}
+		}
+		else {
+			JOptionPane.showMessageDialog(gui.getFrmGradebook(), "No grades have been imported.",
+					"Error", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	
 	private void changeGrade() {
 		double newA, newB, newC, newD;
 		try {
-			newA = Double.parseDouble(JOptionPane.showInputDialog("Enter minimum grade for A:"));
-			newB = Double.parseDouble(JOptionPane.showInputDialog("Enter minimum grade for B:"));
-			newC = Double.parseDouble(JOptionPane.showInputDialog("Enter minimum grade for C:"));
-			newD = Double.parseDouble(JOptionPane.showInputDialog("Enter minimum grade for D:"));
+			
+			JTextField newAField = new JTextField(4);
+			JTextField newBField = new JTextField(4);
+			JTextField newCField = new JTextField(4);
+			JTextField newDField = new JTextField(4);
+			
+			JPanel changeGradesPanel = new JPanel();
+			changeGradesPanel.add(new JLabel("A:"));
+			changeGradesPanel.add(newAField);
+			changeGradesPanel.add(new JLabel("B:"));
+			changeGradesPanel.add(newBField);
+			changeGradesPanel.add(new JLabel("C:"));
+			changeGradesPanel.add(newCField);
+			changeGradesPanel.add(new JLabel("D:"));
+			changeGradesPanel.add(newDField);
+			
+			int result = JOptionPane.showConfirmDialog(null, changeGradesPanel, "Enter"
+					+ "minimum scores for each grade", JOptionPane.OK_CANCEL_OPTION);
+			
+			if (result == JOptionPane.OK_OPTION) {
+				newA = Double.parseDouble(newAField.getText());
+				newB = Double.parseDouble(newBField.getText());
+				newC = Double.parseDouble(newCField.getText());
+				newD = Double.parseDouble(newDField.getText());
 				
-			if(newA > newB && newB > newC && newC > newD) {
-				
-				grades.changeGradeRange(newA, newB, newC, newD);
-				analyzeGrades();
+				if(newA > newB && newB > newC && newC > newD) {
+					
+					grades.changeGradeRange(newA, newB, newC, newD);
+					analyzeGrades();
+				}
+				else {
+					JOptionPane.showMessageDialog(gui.getFrmGradebook(), "Grade ranges must follow the "
+							+ " format: A > B > C > D > E. Please try again.", 
+							"Error", JOptionPane.WARNING_MESSAGE);
+				}
 			}
-			else {
-				JOptionPane.showMessageDialog(gui.getFrmGradebook(), "Grade ranges must follow the following format: A > B > C > D > E. Please try again.", "Error", JOptionPane.WARNING_MESSAGE);
-			}
+			
 		} catch(Exception ee) {
 			ee.printStackTrace();
 		}
@@ -171,14 +200,32 @@ public class GradesController {
 	}
 	
 	private void setMinMax() {
+		double newMin, newMax;
 		try {
-			int newMin = Integer.parseInt(JOptionPane.showInputDialog("Enter minimum score:"));
-			int newMax = Integer.parseInt(JOptionPane.showInputDialog("Enter maximum score:"));
-			if (newMin < newMax && newMin >= 0) {
-				grades.changeMinMaxGrades(newMin, newMax);
-			}
-			else {
-				JOptionPane.showMessageDialog(gui.getFrmGradebook(), "Minimum grade must be positive and Maximum grade must be larger than Minimum grade.", "Error", JOptionPane.WARNING_MESSAGE);
+			
+			JTextField newMinField = new JTextField(4);
+			JTextField newMaxField = new JTextField(4);
+			
+			JPanel changeGradesPanel = new JPanel();
+			changeGradesPanel.add(new JLabel("Minimum score:"));
+			changeGradesPanel.add(newMinField);
+			changeGradesPanel.add(new JLabel("Maximum score:"));
+			changeGradesPanel.add(newMaxField);
+			
+			int result = JOptionPane.showConfirmDialog(null, changeGradesPanel, "Enter"
+					+ "the minimum and maximum score.", JOptionPane.OK_CANCEL_OPTION);
+			
+			if (result == JOptionPane.OK_OPTION) {
+				newMin = Double.parseDouble(newMinField.getText());
+				newMax = Double.parseDouble(newMaxField.getText());
+				
+				if(newMin < newMax && newMin >= 0) {
+					grades.changeMinMaxGrades(newMin, newMax);
+				}
+				else {
+					JOptionPane.showMessageDialog(gui.getFrmGradebook(), "Minimum grade must be positive and "
+							+ "Maximum grade must be larger than Minimum grade.", "Error", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 			
 		} catch (Exception exx) {
@@ -262,7 +309,8 @@ public class GradesController {
 		gui.getLblAverageResult().setText(decimal.format(average));
 		//calculate and display median result
 		if(sortedGrades.size() % 2 == 0) { //even number of grades
-			median = (double)(sortedGrades.get(((grades.getGrades().size()/2) - 1)) + sortedGrades.get((grades.getGrades().size() / 2))) / 2.0;
+			median = (double)(sortedGrades.get(((grades.getGrades().size()/2) - 1)) + 
+					sortedGrades.get((grades.getGrades().size() / 2))) / 2.0;
 		}
 		else {
 			median = (double)sortedGrades.get((grades.getGrades().size() / 2));
