@@ -628,6 +628,8 @@ public class GradesGUI {
 	public JLabel getLbl90thResult() {
 		return lbl90thResult;
 	}
+	
+
 }
 
 

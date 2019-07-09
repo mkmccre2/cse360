@@ -31,7 +31,7 @@ import javax.swing.filechooser.FileSystemView;
  */
 public class GradesController {
 	/** Grades object */
-	private Grades grades;
+	protected Grades grades;
 	/** GradesGUI object */
 	private GradesGUI gui;
 	/** Initial high, low, average, and median values */
@@ -62,8 +62,8 @@ public class GradesController {
 	public void initializeGradesGUI() {
 		try {
 			gui.getFrmGradebook().setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
 	}
 	
@@ -223,8 +223,8 @@ public class GradesController {
 					bufferedWriter.write(out);
 					bufferedWriter.close();	
 				} 
-				catch (Exception ex) {
-					ex.printStackTrace();
+				catch (Exception exception) {
+					exception.printStackTrace();
 				}
 			}
 		}
@@ -241,10 +241,10 @@ public class GradesController {
 		double newA, newB, newC, newD;
 		try {
 			
-			JTextField newAField = new JTextField(4);
-			JTextField newBField = new JTextField(4);
-			JTextField newCField = new JTextField(4);
-			JTextField newDField = new JTextField(4);
+			JTextField newAField = new JTextField(5);
+			JTextField newBField = new JTextField(5);
+			JTextField newCField = new JTextField(5);
+			JTextField newDField = new JTextField(5);
 			
 			JPanel changeGradesPanel = new JPanel();
 			changeGradesPanel.add(new JLabel("A:"));
@@ -333,8 +333,8 @@ public class GradesController {
 				}
 			}
 			
-		} catch (Exception exx) {
-			exx.printStackTrace();
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
 	}
 	
@@ -370,7 +370,7 @@ public class GradesController {
 	/**
 	 * Saves new grades to file.
 	 */
-	protected void saveGrades() {
+	private void saveGrades() {
 		String temp = "";
 		File saveFile = new File(filePath);
 		try {
