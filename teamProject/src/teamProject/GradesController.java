@@ -297,6 +297,7 @@ public class GradesController {
     	gradesString = gui.getEditorPaneT().getText(); //update grades string
     	grades.getGrades().clear();
     	gradesToDouble(gradesString); //update grade array list
+    	gui.getEditorPaneT().setText(gradesToString(grades.getGrades())); //fixes blank spaces in editor
     	saveGrades();
     	analyzeGrades();
 	}
@@ -347,7 +348,8 @@ public class GradesController {
 		String gradeString = "";
 		for (int i = 0; i < grades.size(); i++) {
 			gradeString += grades.get(i) + "\n";
-		}	
+		}
+		System.out.println(gradeString);
 		return gradeString;	
 	}
 	
@@ -360,9 +362,13 @@ public class GradesController {
 		double grade;
 		Scanner scan = new Scanner(gradesString);
 		while (scan.hasNext()) {
-			temp = scan.next();
-			grade = Double.parseDouble(temp);
-			grades.getGrades().add(grade);
+			try {
+				temp = scan.next();
+				grade = Double.parseDouble(temp);
+				grades.getGrades().add(grade);
+			} catch(NumberFormatException e) {
+				JOptionPane.showMessageDialog(gui.getFrmGradebook(), "Only numerical values in the editor, please.", "Error", JOptionPane.WARNING_MESSAGE);
+			}
 		}
 		scan.close();
 	}
