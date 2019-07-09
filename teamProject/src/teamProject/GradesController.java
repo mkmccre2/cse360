@@ -1,3 +1,12 @@
+/**
+    * Author: Mary McCready, Noah Korner, Thais Herve
+    * Class: CSE 360 2019 Summer C (41792)
+    * Team project
+    * The Grading Application calculates useful metrics from
+    * and uploaded text file. Users have the ability to make changes
+    * to grades and save grade reports.
+    */
+
 package teamProject;
 
 import java.io.BufferedWriter;
@@ -42,6 +51,62 @@ public class GradesController {
 	}
 	
 	public void initializeController() {
+		
+		Object[] options1 = {"Take tour", "Get started"};
+		Object[] options2 = {"Next tip", "Leave tour"};
+		Object[] options3 = {"Get started!", "Restart tour"};
+		int counter = 0;
+		int tour = JOptionPane.showOptionDialog(gui.getFrmGradebook(), "Welcome to the "
+				+ "Grading Application! \nIf this is your first time using the app, "
+				+ "select 'Take tour'. \nIf you've been here before, select 'Get "
+				+ "started' to go directly to the app.", "Welcome to the Grading "
+						+ "Application", JOptionPane.OK_CANCEL_OPTION, 
+						JOptionPane.INFORMATION_MESSAGE, null, options1, options1[0]);
+		
+		String[] tourMessages = {
+				"To upload your grades, select the 'Upload Grades' button "
+				+ "\nand navigate to a text file that contains the grades. "
+				+ "\nOnly text files are accepted, and grades must be comma, "
+				+ "\nspace, or line delimited.",
+				
+				"To change the letter grade ranges, select 'Change Letter Grade "
+				+ "\n Ranges' and enter the minimum score for each letter grade.",
+				
+				"The default minimum grade is 0 and the default maximum grade is "
+				+ "\n100. To change the minimum and maximum grades, selext the 'Set "
+				+ "\nMin/Max Grade' button and enter the desired grades.",
+				
+				"Grades can be updated directly in the GRADES editor at any time. "
+				+ "\nYou can make changes to uploaded grades, or you can begin adding "
+				+ "\ngrades manually. To update the grades metrics, select the 'Update "
+				+ "\nGrades' button and the metrics will automatically update. If you "
+				+ "\nuploaded grades, the changes will be saved to the original file. "
+				+ "\nIf you did not upload grades, you will be prompted to save your "
+				+ "\nchanges to a new grades file.",
+				
+				"You can save a report at any time after you have uploaded or "
+				+ "\nupdated grades. Select the 'Save Report' button and choose a "
+				+ "\nsave location."
+		};
+		
+		while(tour == JOptionPane.OK_OPTION && counter < 5) {
+			if (counter != 4) {
+				tour = JOptionPane.showOptionDialog(gui.getFrmGradebook(), tourMessages[counter], "Grading "
+						+ "Application Tour", JOptionPane.OK_CANCEL_OPTION, 
+						JOptionPane.INFORMATION_MESSAGE, null, options2, options2[0]);
+			}
+			else {
+				tour = JOptionPane.showOptionDialog(gui.getFrmGradebook(), tourMessages[counter], "Grading "
+						+ "Application Tour", JOptionPane.OK_CANCEL_OPTION, 
+						JOptionPane.INFORMATION_MESSAGE, null, options3, options3[0]);
+				if(tour == JOptionPane.CANCEL_OPTION) {
+					counter = -1;
+				}
+			}
+			
+			counter++;
+		}
+		
 		gui.getBtnUploadGrades().addActionListener(e -> uploadGrades());
 		gui.getBtnPrintReport().addActionListener(e -> printReport());
 		gui.getBtnChangeGrade().addActionListener(e -> changeGrade());
