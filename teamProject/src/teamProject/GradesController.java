@@ -34,7 +34,7 @@ public class GradesController {
 	private Grades grades;
 	/** GradesGUI object */
 	private GradesGUI gui;
-	/** Initial high, lowe, average, and median values */
+	/** Initial high, low, average, and median values */
 	private double high = 0, low = 0, average = 0, median = 0;
 	/** Initial A, B, C, D, E score values */
 	private int numA = 0, numB = 0, numC = 0, numD = 0, numE = 0;
