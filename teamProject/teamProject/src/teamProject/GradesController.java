@@ -362,13 +362,9 @@ public class GradesController {
 		double grade;
 		Scanner scan = new Scanner(gradesString);
 		while (scan.hasNext()) {
-			try {
-				temp = scan.next();
-				grade = Double.parseDouble(temp);
-				grades.getGrades().add(grade);
-			} catch(NumberFormatException e) {
-				JOptionPane.showMessageDialog(gui.getFrmGradebook(), "Only numerical values in the editor, please.", "Error", JOptionPane.WARNING_MESSAGE);
-			}
+			temp = scan.next();
+			grade = Double.parseDouble(temp);
+			grades.getGrades().add(grade);
 		}
 		scan.close();
 	}
