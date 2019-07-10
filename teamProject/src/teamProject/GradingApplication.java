@@ -29,5 +29,3 @@ public class GradingApplication {
 		controller.initializeController();
 	}
 }//GradingApplication class	
-	
-	

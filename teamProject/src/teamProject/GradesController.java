@@ -190,6 +190,7 @@ public class GradesController {
 	 * If grades are present, prompts user to save report.
 	 */
 	private void printReport() {
+		DecimalFormat decimal = new DecimalFormat("#.##");
 		if (grades.getGrades().size() != 0) {
 			JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 			int retrieval = jfc.showSaveDialog(null);
@@ -206,7 +207,7 @@ public class GradesController {
 						"----------------------\n" + 
 						"HIGH = " + high +
 						"\nLOW = " + low +
-						"\nAVERAGE = " + average +
+						"\nAVERAGE = " + decimal.format(average) +
 						"\nMEDIAN = " + median + 
 						"\n\nDISTRIBUTION\n" + 
 						"----------------------\n" +
@@ -265,16 +266,26 @@ public class GradesController {
 				newC = Double.parseDouble(newCField.getText());
 				newD = Double.parseDouble(newDField.getText());
 				
-				if(newA > newB && newB > newC && newC > newD) {
-					
-					grades.changeGradeRange(newA, newB, newC, newD);
-					analyzeGrades();
+				if(newA > 0 && newB > 0 && newC > 0 && newD > 0) {
+					if(newA > newB && newB > newC && newC > newD) {
+						
+						grades.changeGradeRange(newA, newB, newC, newD);
+						if(grades.getGrades().size()>0) {
+							analyzeGrades();
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(gui.getFrmGradebook(), "Grade ranges must follow the "
+								+ " format: A > B > C > D > E. Please try again.", 
+								"Error", JOptionPane.WARNING_MESSAGE);
+					}
 				}
 				else {
-					JOptionPane.showMessageDialog(gui.getFrmGradebook(), "Grade ranges must follow the "
-							+ " format: A > B > C > D > E. Please try again.", 
+					JOptionPane.showMessageDialog(gui.getFrmGradebook(), "Grade ranges must be greater "
+							+ "than zero. Please try again.", 
 							"Error", JOptionPane.WARNING_MESSAGE);
 				}
+				
 			}
 			
 		} catch(Exception exception) {
@@ -297,12 +308,13 @@ public class GradesController {
     	gradesString = gui.getEditorPaneT().getText(); //update grades string
     	grades.getGrades().clear();
     	gradesToDouble(gradesString); //update grade array list
+    	gui.getEditorPaneT().setText(gradesToString(grades.getGrades()));
     	saveGrades();
     	analyzeGrades();
 	}
 	
 	/**
-	 * User can set new minimum and maximum allowed grades for an assignemnt.
+	 * User can set new minimum and maximum allowed grades for an assignment.
 	 */
 	private void setMinMax() {
 		double newMin, newMax;
@@ -347,7 +359,7 @@ public class GradesController {
 		String gradeString = "";
 		for (int i = 0; i < grades.size(); i++) {
 			gradeString += grades.get(i) + "\n";
-		}	
+		}
 		return gradeString;	
 	}
 	
@@ -360,9 +372,13 @@ public class GradesController {
 		double grade;
 		Scanner scan = new Scanner(gradesString);
 		while (scan.hasNext()) {
-			temp = scan.next();
-			grade = Double.parseDouble(temp);
-			grades.getGrades().add(grade);
+			try {
+				temp = scan.next();
+				grade = Double.parseDouble(temp);
+				grades.getGrades().add(grade);
+			} catch(NumberFormatException e) {
+				JOptionPane.showMessageDialog(gui.getFrmGradebook(), "Only numerical values in the editor, please.", "Error", JOptionPane.WARNING_MESSAGE);
+			}
 		}
 		scan.close();
 	}
